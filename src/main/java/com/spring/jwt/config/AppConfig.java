@@ -46,7 +46,6 @@ public class AppConfig {
         return new JwtConfig();
     }
 
-
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
 
@@ -80,16 +79,16 @@ public class AppConfig {
                 .formLogin().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/account/**").permitAll()
-                .requestMatchers("/cars/**").permitAll()
-                .requestMatchers("/booking/**").hasAnyAuthority("USER", "ADMIN","DEALER")
-                .requestMatchers("/userProfilePhoto/**").permitAll()
-                .requestMatchers("/photo/**").permitAll()
-                .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                .requestMatchers("/dealerDocument/**").hasAnyAuthority("ADMIN", "DEALER")
-                .requestMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
-                .requestMatchers("/dealer/**").hasAnyAuthority("DEALER", "ADMIN")
-                .requestMatchers("/car/**").hasAnyAuthority("DEALER", "ADMIN")
-                .anyRequest().authenticated()
+
+                .requestMatchers("/user/form/**").permitAll()
+
+                .requestMatchers("/user/**").permitAll()
+
+                .requestMatchers("/admin/**").permitAll()
+
+
+
+
                 .and()
                 .authenticationManager(manager)
                 .sessionManagement()

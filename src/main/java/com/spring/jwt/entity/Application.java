@@ -1,5 +1,6 @@
 package com.spring.jwt.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -46,6 +47,7 @@ public class Application {
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
     private Date dob;
+
     @Column(nullable = false)
     private Boolean maritalStatus;
 
@@ -62,6 +64,11 @@ public class Application {
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Address> addresses;
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id")//,nullable = false)
+    @JsonBackReference
+    private Admin admin;
 
     private String organizationName;
     private String workingLocation;

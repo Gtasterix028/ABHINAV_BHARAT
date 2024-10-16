@@ -19,6 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user_id_generator")
     @SequenceGenerator(name = "user_id_generator", initialValue = 1000)
     private Integer id;
+
     @Column(name = "Name", nullable = false, length = 50)
     private String name;
 
@@ -31,8 +32,10 @@ public class User {
     @Column(name = "Password", nullable = false, length = 100)
     private String password;
 
-    @Column(name = "Amount",nullable = false)
-    private Double amount;
+
+
+    @Column(name = "Role",nullable = false)
+    private String role;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),

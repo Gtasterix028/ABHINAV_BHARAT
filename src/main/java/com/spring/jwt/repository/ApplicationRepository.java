@@ -1,6 +1,8 @@
 package com.spring.jwt.repository;
 
-import com.gtasterix.AbhinavNGO.model.Application;
+
+import com.spring.jwt.dto.ApplicationDTO;
+import com.spring.jwt.entity.Application;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,29 +1,29 @@
 package com.spring.jwt.mapper;
 
-import com.gtasterix.AbhinavNGO.DTO.UserDTO;
-import com.gtasterix.AbhinavNGO.model.User;
+
+import com.spring.jwt.dto.UserDTO;
+import com.spring.jwt.entity.User;
 
 public class UserMapper {
 
-    public static UserDTO toDTO(User user){
-        UserDTO userDTO=new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
+    public static UserDTO toDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+
         userDTO.setEmail(user.getEmail());
-        userDTO.setMobileno(user.getMobileno());
-        userDTO.setAmount(user.getAmount());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setMobile_no(user.getMobileNo());
+        userDTO.setRole(user.getRole());
         return userDTO;
     }
 
+    // Method to map UserDTO to User entity
     public static User toEntity(UserDTO userDTO) {
+        User user = new User();
 
-    User user = new User();
-    user.setId(userDTO.getId());
-    user.setName(userDTO.getName());
-    user.setMobileno(userDTO.getMobileno());
-    user.setEmail(userDTO.getEmail());
-    user.setAmount(userDTO.getAmount());
-    return user;
-
-
-}}
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setMobileNo(userDTO.getMobile_no());
+        user.setRole(userDTO.getRole());
+        return user;
+    }
+}

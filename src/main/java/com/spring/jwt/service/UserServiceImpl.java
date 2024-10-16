@@ -52,13 +52,7 @@ public class UserServiceImpl implements UserService {
 
         Random random = new Random();
         Boolean flag = true;
-        Integer randomReferenceNumber = 0;
-        while(flag){
-            randomReferenceNumber =  random.nextInt(89999999)+9999999;
-            Optional<User> user1 = userRepository.findByReferenceId(randomReferenceNumber);
-            if(user1.isEmpty())flag = false;
-        }
-        user.setReferenceId(randomReferenceNumber);
+
 
 
 

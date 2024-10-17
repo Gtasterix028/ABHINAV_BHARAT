@@ -32,7 +32,7 @@ public class AddressMapper {
         address.setTaluka(addressDTO.getTaluka());
         address.setPincode(addressDTO.getPincode());
 
-        // Set the application
+
         if (addressDTO.getApplicationId() != null) {
             Application application = new Application();
             application.setApplicationId(addressDTO.getApplicationId());

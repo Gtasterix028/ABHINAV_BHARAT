@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -46,7 +47,10 @@ public class AppConfig {
         return new JwtConfig();
     }
 
-
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
 
@@ -80,15 +84,9 @@ public class AppConfig {
                 .formLogin().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/account/**").permitAll()
-                .requestMatchers("/cars/**").permitAll()
-                .requestMatchers("/booking/**").hasAnyAuthority("USER", "ADMIN","DEALER")
-                .requestMatchers("/userProfilePhoto/**").permitAll()
-                .requestMatchers("/photo/**").permitAll()
-                .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                .requestMatchers("/dealerDocument/**").hasAnyAuthority("ADMIN", "DEALER")
-                .requestMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
-                .requestMatchers("/dealer/**").hasAnyAuthority("DEALER", "ADMIN")
-                .requestMatchers("/car/**").hasAnyAuthority("DEALER", "ADMIN")
+                .requestMatchers("/api/otp/**").permitAll()
+
+
                 .anyRequest().authenticated()
                 .and()
                 .authenticationManager(manager)

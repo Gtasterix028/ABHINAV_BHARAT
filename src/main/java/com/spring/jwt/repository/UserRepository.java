@@ -21,5 +21,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 //    @Query()
 //
-    Optional<User> findByReferenceId(Integer randomReferenceNumber);
+
 }

@@ -31,8 +31,7 @@ public class User {
     @Column(name = "Password", nullable = false, length = 100)
     private String password;
 
-    @Column(name = "Amount",nullable = false)
-    private Double amount;
+
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),

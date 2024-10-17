@@ -19,8 +19,8 @@ public class ApplicationDTO {
     private String mailID;
     private String mobileNo ;
     private String alternateNo;
-    private Date dob;
-    private Boolean maritalStatus;
+    private LocalDate dob;
+    private String maritalStatus;
     private String adharCard;
     private String panCardNo;
     private String organizationName;
@@ -34,5 +34,8 @@ public class ApplicationDTO {
 
     private List<QualificationDTO> qualifications;
     private List<AddressDTO> addresses;
+
+    // private MultipartFile resume;
+    private byte[] resume;
 
 }

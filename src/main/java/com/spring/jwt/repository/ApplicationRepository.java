@@ -3,8 +3,8 @@ package com.spring.jwt.repository;
 
 
 
-import com.spring.jwt.dto.ApplicationDTO;
 import com.spring.jwt.entity.Application;
+import com.spring.jwt.entity.PaymentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +19,7 @@ public interface ApplicationRepository extends JpaRepository<Application,Integer
     Optional<Application> findByAdharCard(String AdharCard);
     Optional<Application> findByPanCardNo(String panCardNo);
     List<Application> findBySubmissionDate(LocalDate submissionDate);
+    List<Application> findByDate(LocalDate date);
+    List<Application> findByPaymentStatus(PaymentStatus paymentStatus);
 }
 

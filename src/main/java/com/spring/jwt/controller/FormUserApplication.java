@@ -53,7 +53,6 @@ public class FormUserApplication {
         try {
             // Call the service method to save the image
             Object savedImage = iFormUser.saveImage(id, image);
-
             Response response = new Response("Image Added Successfully", savedImage, false);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
@@ -63,19 +62,4 @@ public class FormUserApplication {
     }
 
 
-
-    @GetMapping("/Resume")
-    public ResponseEntity<Response> getResume(@RequestParam Integer id){
-        try {
-            Application application = applicationRepository.findById(id).orElseThrow(() -> new RuntimeException("Application not found"));
-            byte[] image = application.getResume();
-            Response response = new Response("OK", image, false);
-            return ResponseEntity.status(HttpStatus.FOUND).body(response);
-        }
-        catch (Exception e){
-
-            Response errorResponse = new Response("BAD", e.getMessage(), true);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-        }
-    }
 }

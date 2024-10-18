@@ -8,19 +8,9 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
+import com.spring.jwt.entity.PaymentStatus;
 
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
-        import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
@@ -87,9 +77,13 @@ public class Application {
     @Column(nullable = false)
     private LocalDate submissionDate;
 
+    @Column(nullable = false)
+    private LocalDate date;
+
     @PrePersist
     protected void onCreate(){
         submissionDate = LocalDate.now();
+        date = LocalDate.now();
     }
 
     @Lob

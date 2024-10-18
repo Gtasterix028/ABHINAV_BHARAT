@@ -98,7 +98,11 @@ public class AppConfig {
                 ).permitAll()
                 .requestMatchers("/account/**").permitAll()
                 .requestMatchers("/api/otp/**").permitAll()
+
+                .requestMatchers("/user/form/**").permitAll()
+                .requestMatchers("/admin/**").permitAll()
                 .requestMatchers("/user/form/save").permitAll()
+
 
 
                 .anyRequest().authenticated()

@@ -14,7 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController
 @RequestMapping("/user/form")
 public class FormUserApplication {
     @Autowired

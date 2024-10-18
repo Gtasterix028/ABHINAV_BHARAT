@@ -98,7 +98,8 @@ public class AppConfig {
                 ).permitAll()
                 .requestMatchers("/account/**").permitAll()
                 .requestMatchers("/api/otp/**").permitAll()
-                .requestMatchers("/user/form/save").permitAll()
+                .requestMatchers("/user/form/**").permitAll()
+                .requestMatchers("/admin/**").permitAll()
 
 
                 .anyRequest().authenticated()
@@ -124,7 +125,7 @@ public class AppConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(Collections.singletonList("http://localhost:5173,http://localhost:3000"    ));
+                config.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));
                 config.setAllowedMethods(Collections.singletonList("*"));
                 config.setAllowCredentials(true);
                 config.setAllowedHeaders(Collections.singletonList("*"));

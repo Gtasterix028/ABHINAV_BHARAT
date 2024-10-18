@@ -100,6 +100,7 @@ public class AppConfig {
                 .requestMatchers("/api/otp/**").permitAll()
                 .requestMatchers("/user/form/**").permitAll()
                 .requestMatchers("/admin/**").permitAll()
+                .requestMatchers("/admin/update-status").permitAll()
 
 
                 .anyRequest().authenticated()

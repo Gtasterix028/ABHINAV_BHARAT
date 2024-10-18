@@ -92,8 +92,9 @@ public class Application {
 
     private String resumeType;
     private String resumeName;
+
     @Lob
-    @Column(columnDefinition="LONGBLOB", name="receiptPayment")
+    @Column(columnDefinition="LONGBLOB", name="Payment_receipt")
     private byte[] image;
 
     @Enumerated(EnumType.STRING)

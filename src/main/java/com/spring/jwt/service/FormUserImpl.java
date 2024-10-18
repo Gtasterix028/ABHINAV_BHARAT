@@ -134,6 +134,10 @@ import java.util.regex.Pattern;
                     throw new RuntimeException("Resume is Mandatory");
                 }
 
+                if(application.getImage() == null){
+                    application.setPaymentStatus(PaymentStatus.NO_PAYMENT);
+                }
+
                 // Save application entity
                 Application savedApplication = applicationRepository.save(application);
 

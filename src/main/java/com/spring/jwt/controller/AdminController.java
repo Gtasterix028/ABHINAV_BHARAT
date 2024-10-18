@@ -88,7 +88,7 @@ public class AdminController {
 
     }
 
-    @PutMapping("/update-status/{id}")
+    @PutMapping("/update-status")
     public ResponseEntity<Application> updatePaymentStatus(@RequestParam Integer id,
                                                            @RequestParam("adminApproved") Boolean adminApproved) {
         Application updatedApplication = iFormUser.updatePaymentStatus(id, adminApproved);

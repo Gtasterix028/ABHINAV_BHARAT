@@ -43,8 +43,6 @@ import java.util.regex.Pattern;
         @Autowired
         private QualificationMapper qualificationMapper;
 
-
-
         private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         private static final String MOBILE_REGEX = "^[6-9][0-9]{9}$";
         private static final String AADHAARCARD_REGEX = "^[2-9]{1}[0-9]{11}$";
@@ -189,81 +187,6 @@ import java.util.regex.Pattern;
             }
         }
 
-
-    //    @Override
-    //    public Object saveSvayamSavikaForm(ApplicationDTO applicationDTO)  {
-    //
-    //        applicationDTO.setPanCardNo(applicationDTO.getPanCardNo().toUpperCase()); // Convert PAN to uppercase
-    //
-    //        if (applicationRepository.findByMailID(applicationDTO.getMailID()).isPresent()) {
-    //            throw new IllegalArgumentException("Email ID is already in use.");
-    //        }
-    //        if (applicationRepository.findByAdharCard(applicationDTO.getAdharCard()).isPresent()) {
-    //            throw new IllegalArgumentException("AadhaarCard no. is already in use.");
-    //        }
-    //        if (applicationRepository.findByPanCardNo(applicationDTO.getPanCardNo()).isPresent()) {
-    //            throw new IllegalArgumentException("PanCard no. is already in use.");
-    //        }
-    //
-    //        if (validateEmail(applicationDTO.getMailID()) && validateMobileNumber(applicationDTO.getMobileNo())
-    //                && validateAadhaar(applicationDTO.getAdharCard()) && validatePan(applicationDTO.getPanCardNo())){
-    //               //&& validateDob(applicationDTO.getDob())) {
-    //            if (applicationDTO.getAlternateNo() != null) {
-    //                validateMobileNumber(applicationDTO.getAlternateNo());
-    //            }
-    //
-    //            Application application = ApplicationMapper.toApplicationEntity(applicationDTO);
-    //            Application savedApplication = applicationRepository.save(application);
-    //
-    //            List<QualificationDTO> qualificationDTOS = applicationDTO.getQualifications();
-    //            if (qualificationDTOS != null) {
-    //                for (QualificationDTO qualificationDTO : qualificationDTOS) {
-    //                    Qualification qualification = QualificationMapper.toQualification(qualificationDTO);
-    //
-    //                    Optional<Qualification> existingQualification = qualificationRepository.findByApplicationAndStandardAndUniversityAndPassingYearAndPercentage(
-    //                            savedApplication, qualification.getStandard(), qualification.getUniversity(),
-    //                            qualification.getPassingYear(), qualification.getPercentage());
-    //
-    //                    // Check if the qualification already exists
-    //                    if (existingQualification.isEmpty()) {
-    //                        qualification.setApplication(savedApplication);
-    //                        qualificationRepository.save(qualification);
-    //                    } else {
-    //                        new RuntimeException("Duplicate qualification found, skipping save: " + qualificationDTO);
-    //                    }
-    //                }
-    //            } else {
-    //                throw new RuntimeException("Qualification is Mandatory");
-    //            }
-    //
-    //            List<AddressDTO> addressDTOs = applicationDTO.getAddresses();
-    //            if (addressDTOs != null) {
-    //                for (AddressDTO addressDTO : addressDTOs) {
-    //                    Address address = AddressMapper.toAddress(addressDTO);
-    //
-    //                    Optional<Address> existingAddress = addressRepository.findByApplicationAndStreetAddressAndDistrictAndPincodeAndStateAndTaluka(
-    //                            savedApplication, address.getStreetAddress(), address.getDistrict(), address.getPincode(), address.getState(), address.getTaluka());
-    //
-    //                    if (existingAddress.isEmpty()) {
-    //                        address.setApplication(savedApplication);
-    //                        addressRepository.save(address);
-    //                    } else {
-    //                        // Optionally handle duplicate address scenario (e.g., log or ignore)
-    //                        new Exception("Duplicate address found, skipping save: " + addressDTO);
-    //                    }
-    //                }
-    //            } else {
-    //                throw new RuntimeException("Address is Mandatory");
-    //            }
-    //            applicationRepository.save(savedApplication);
-    //            return ApplicationMapper.toApplicationDTO(savedApplication);
-    //        } else {
-    //            throw new RuntimeException("Applicant not created due to invalid details");
-    //        }
-    //    }
-
-
-
         @Override
         public List<Application> getAllApplicationsSubmittedToday() {
             return applicationRepository.findBySubmissionDate(LocalDate.now());
@@ -279,20 +202,36 @@ import java.util.regex.Pattern;
             return applicationDTOList;
         }
 
-
         @Override
         public Object saveImage(Integer id, MultipartFile image) throws RuntimeException, IOException {
-
             Application existingApplication = applicationRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Application not found with ID: " + id));
-
 
             byte[] imageBytes = image.getBytes();
             existingApplication.setImage(imageBytes);
 
-
             existingApplication.setPaymentStatus(PaymentStatus.PENDING);
             return applicationRepository.save(existingApplication);
         }
-    }
 
+        @Override
+        public List<Application> getByDate(LocalDate date) {
+            return applicationRepository.findByDate(LocalDate.now());
+        }
+
+        @Override
+        public List<Application> getPendingApplications() {
+            return applicationRepository.findByPaymentStatus(PaymentStatus.PENDING);
+        }
+
+        @Override
+        public Application updatePaymentStatus(Integer id, Boolean adminApproved) {
+            Application application = applicationRepository.findById(id).orElseThrow();
+            if (adminApproved) {
+                application.setPaymentStatus(PaymentStatus.SUCCESS); // No need for Application. here if imported
+            } else {
+                application.setPaymentStatus(PaymentStatus.PENDING); // No need for Application. here if imported
+            }
+            return applicationRepository.save(application);
+        }
+    }

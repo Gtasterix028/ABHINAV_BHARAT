@@ -24,4 +24,7 @@ public interface IFormUser {
     List<Application> getPendingApplications();
 
     Application updatePaymentStatus(Integer id, Boolean adminApproved);
+
+    Object saveSvayamSavikaFormMarathi(ApplicationDTO applicationDTO, MultipartFile file);
+
 }

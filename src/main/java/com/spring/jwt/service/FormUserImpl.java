@@ -192,6 +192,100 @@ import java.util.regex.Pattern;
         }
 
         @Override
+        public Object saveSvayamSavikaFormMarathi(ApplicationDTO applicationDTO, MultipartFile file) throws RuntimeException {
+
+//            applicationDTO.setPanCardNo(applicationDTO.getPanCardNo().toUpperCase()); // Convert PAN to uppercase
+//
+//            if (applicationRepository.findByMailID(applicationDTO.getMailID()).isPresent()) {
+//                throw new IllegalArgumentException("Email ID is already in use.");
+//            }
+//            if (applicationRepository.findByAdharCard(applicationDTO.getAdharCard()).isPresent()) {
+//                throw new IllegalArgumentException("AadhaarCard no. is already in use.");
+//            }
+//            if (applicationRepository.findByPanCardNo(applicationDTO.getPanCardNo()).isPresent()) {
+//                throw new IllegalArgumentException("PanCard no. is already in use.");
+//            }
+//
+//            if (validateEmail(applicationDTO.getMailID()) && validateMobileNumber(applicationDTO.getMobileNo())
+//                    && validateAadhaar(applicationDTO.getAdharCard()) && validatePan(applicationDTO.getPanCardNo())){
+//                // && validateDob(applicationDTO.getDob())) {
+//                if (applicationDTO.getAlternateNo() != null) {
+//                    validateMobileNumber(applicationDTO.getAlternateNo());
+//                }
+
+                Application application = ApplicationMapper.toApplicationEntity(applicationDTO);
+
+                // Process the resume file
+                if (file != null && !file.isEmpty()) {
+                    try {
+                        application.setResume(file.getBytes()); // Convert MultipartFile to byte[]
+                        application.setResumeName(file.getOriginalFilename()); // Set the resume name
+                        application.setResumeType(file.getContentType()); // Set the resume type (MIME type)
+                    } catch (IOException e) {
+                        throw new RuntimeException("Error reading resume file: " + e.getMessage(), e);
+                    }
+                } else {
+                    throw new RuntimeException("Resume is Mandatory");
+                }
+
+                if(application.getImage() == null){
+                    application.setPaymentStatus(PaymentStatus.NO_PAYMENT);
+                }
+
+                // Save application entity
+                Application savedApplication = applicationRepository.save(application);
+
+                // Save qualifications
+                List<QualificationDTO> qualificationDTOS = applicationDTO.getQualifications();
+                if (qualificationDTOS != null) {
+                    for (QualificationDTO qualificationDTO : qualificationDTOS) {
+                        Qualification qualification = QualificationMapper.toQualification(qualificationDTO);
+
+                        Optional<Qualification> existingQualification = qualificationRepository.findByApplicationAndStandardAndUniversityAndPassingYearAndPercentage(
+                                savedApplication, qualification.getStandard(), qualification.getUniversity(),
+                                qualification.getPassingYear(), qualification.getPercentage());
+
+                        //                    if (existingQualification.isEmpty()) {
+                        //                        qualification.setApplication(savedApplication);
+                        //                        qualificationRepository.save(qualification);
+                        //                    } else {
+                        //                        throw new RuntimeException("Duplicate qualification found, skipping save: " + qualificationDTO);
+                        //                    }
+                    }
+                } else {
+                    throw new RuntimeException("Qualification is Mandatory");
+                }
+
+                // Save addresses
+                List<AddressDTO> addressDTOs = applicationDTO.getAddresses();
+                if (addressDTOs != null) {
+                    for (AddressDTO addressDTO : addressDTOs) {
+                        Address address = AddressMapper.toAddress(addressDTO);
+
+                        Optional<Address> existingAddress = addressRepository.findByApplicationAndStreetAddressAndDistrictAndPincodeAndStateAndTaluka(
+                                savedApplication, address.getStreetAddress(), address.getDistrict(), address.getPincode(), address.getState(), address.getTaluka());
+
+                        //                    if (existingAddress.isEmpty()) {
+                        //                        address.setApplication(savedApplication);
+                        //                        addressRepository.save(address);
+                        //                    } else {
+                        //                        throw new RuntimeException("Duplicate address found, skipping save: " + addressDTO);
+                        //                    }
+                    }
+                } else {
+                    throw new RuntimeException("Address is Mandatory");
+                }
+
+                // Save the final application and return the DTO
+                applicationRepository.save(savedApplication);
+                return ApplicationMapper.toApplicationDTO(savedApplication);
+//
+//            } else {
+//                throw new RuntimeException("Applicant not created due to invalid details");
+//            }
+        }
+
+        @Override
         public List<Application> getAllApplicationsSubmittedToday() {
             return applicationRepository.findBySubmissionDate(LocalDate.now());
         }
@@ -235,6 +329,7 @@ import java.util.regex.Pattern;
                 application.setPaymentStatus(PaymentStatus.SUCCESS); // No need for Application. here if imported
             } else {
                 application.setPaymentStatus(PaymentStatus.PENDING); // No need for Application. here if imported
+                applicationRepository.deleteById(id);
             }
             return applicationRepository.save(application);
         }

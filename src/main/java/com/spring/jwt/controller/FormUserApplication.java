@@ -62,5 +62,37 @@ public class FormUserApplication {
         }
     }
 
+    @PostMapping(value = "/saveMararthi", consumes = "multipart/form-data")
+    public ResponseEntity<Response> saveSvayamSavikaFormMarathi(
+            @RequestPart("IdDTO") String IdDTOString,
+            @RequestPart("file") MultipartFile file) {
+        try {
+            ApplicationDTO applicationDTO = objectMapper.readValue(IdDTOString, ApplicationDTO.class);
+            applicationDTO.setResume(file.getBytes());  // Save file as byte array
+            Object savedApplication = iFormUser.saveSvayamSavikaForm(applicationDTO, file);
+            Response response = new Response("Application Added", savedApplication, false);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            Response errorResponse = new Response("Failed to Add Application", e.getMessage(), true);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
+
+//    @PostMapping(value = "/saveImage", consumes = "multipart/form-data")
+//    public ResponseEntity<Response> saveImage(
+//            @RequestParam("id") Integer id,
+//            @RequestPart("image") MultipartFile image) {
+//        try {
+//            // Call the service method to save the image
+//            Object savedImage = iFormUser.saveImage(id, image);
+//            Response response = new Response("Image Added Successfully", savedImage, false);
+//            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+//        } catch (Exception e) {
+//            Response errorResponse = new Response("Failed To Add Image", e.getMessage(), true);
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+//        }
+//    }
+
+
 
 }

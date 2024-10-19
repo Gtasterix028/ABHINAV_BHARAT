@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private void validateAccount(RegisterDto registerDto) {
+    void validateAccount(RegisterDto registerDto) {
         // validate null data
         if (ObjectUtils.isEmpty(registerDto)) {
             throw new BaseException(String.valueOf(HttpStatus.BAD_REQUEST.value()), "Data must not be empty");

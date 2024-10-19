@@ -330,6 +330,7 @@ import java.util.regex.Pattern;
             } else {
                 application.setPaymentStatus(PaymentStatus.PENDING); // No need for Application. here if imported
                 applicationRepository.deleteById(id);
+                new RuntimeException("Pending Applicant Deleted successfully ");
             }
             return applicationRepository.save(application);
         }

@@ -1,6 +1,7 @@
 package com.spring.jwt.dto;
 
 import com.spring.jwt.entity.Invoices;
+import com.spring.jwt.entity.Products;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

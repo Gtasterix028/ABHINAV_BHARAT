@@ -1,9 +1,9 @@
 package com.spring.jwt.repository;
 
-import com.spring.jwt.entity.Invoices;
+import com.spring.jwt.entity.Products;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface InvoiceRepository extends JpaRepository<Invoices,Integer> {
+public interface ProductsRepository extends JpaRepository<Products,Integer> {
 }

@@ -104,9 +104,8 @@ public class AppConfig {
                 .requestMatchers("/admin/update-status").permitAll()
                 .requestMatchers("/payments/**").permitAll()
                 .requestMatchers("/payment-status/**").permitAll()
-
-
-
+                .requestMatchers("/products/**").permitAll()
+                .requestMatchers("/customers/**").permitAll()
 
 
 
